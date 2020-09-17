@@ -1,0 +1,38 @@
+steps:
+  - name: 'node'
+    entrypoint: 'npm'
+    id: Install
+    args:
+      - 'install'
+    dir: 'src'
+  - name: 'node'
+    entrypoint: 'npm'
+    id: Test
+    args: ['test']
+    dir: 'src'
+  - name: 'docker'
+    id: Build
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME', '.']
+  - name: 'docker'
+    id: Push
+    args: ['push', 'gcr.io/$PROJECT_ID/$REPO_NAME']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: Deploy
+    entrypoint: gcloud
+    args:
+      [
+        'run',
+        'deploy',
+        '${SERVICE_NAME}',
+        '--image',
+        'gcr.io/$PROJECT_ID/$REPO_NAME',
+        '--region',
+        'europe-north1',
+        '--platform',
+        'managed',
+        '--allow-unauthenticated',
+      ]
+
+substitutions:
+  SERVICE_NAME: 'cloud-run-ts-apollo-graphql'
+images: ['gcr.io/$PROJECT_ID/$REPO_NAME']
