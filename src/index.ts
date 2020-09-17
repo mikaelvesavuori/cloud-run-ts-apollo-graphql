@@ -4,7 +4,6 @@ import { getUsersUseCase } from './usecases/getUsers';
 
 const PORT = process.env.PORT || 8080;
 
-// Construct a schema, using GraphQL schema language
 const typeDefs = gql`
   type Query {
     getUsers: [User]
@@ -17,7 +16,6 @@ const typeDefs = gql`
   }
 `;
 
-// Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
     getUsers: async () => await getUsersUseCase()
