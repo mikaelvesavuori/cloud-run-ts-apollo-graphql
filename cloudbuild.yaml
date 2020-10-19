@@ -5,11 +5,12 @@ steps:
     args:
       - 'install'
     dir: 'src'
-  - name: 'node'
-    entrypoint: 'npm'
-    id: Test
-    args: ['test']
-    dir: 'src'
+  # Add testing when you've added and modified tests to your case
+  #- name: 'node'
+  #  entrypoint: 'npm'
+  #  id: Test
+  #  args: ['test']
+  #  dir: 'src'
   - name: 'docker'
     id: Build
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME', '.']
@@ -23,16 +24,17 @@ steps:
       [
         'run',
         'deploy',
-        '${SERVICE_NAME}',
+        '$_SERVICE_NAME',
         '--image',
         'gcr.io/$PROJECT_ID/$REPO_NAME',
         '--region',
-        'europe-north1',
+        '$_REGION',
         '--platform',
         'managed',
         '--allow-unauthenticated',
       ]
 
 substitutions:
-  SERVICE_NAME: 'cloud-run-ts-apollo-graphql'
+  _SERVICE_NAME: 'cloud-run-ts-apollo-graphql'
+  _REGION: 'europe-north1'
 images: ['gcr.io/$PROJECT_ID/$REPO_NAME']

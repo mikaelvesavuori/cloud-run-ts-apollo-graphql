@@ -8,7 +8,6 @@ gcloud services enable artifactregistry.googleapis.com
 gcloud source repos create $REPO_NAME
 
 # Create Artifact Registry for image
-# TODO: Fix, not working?
 gcloud beta artifacts repositories create $REPO_NAME \
   --repository-format="docker" \
   --location=$LOCATION \
@@ -20,6 +19,10 @@ gcloud beta builds triggers create cloud-source-repositories \
   --repo $REPO_NAME \
   --branch-pattern "master" \
   --build-config "cloudbuild.yaml"
+
+# Clean git history
+rm -rf .git
+git init
 
 # Commit code
 gcloud init && git config --global credential.https://source.developers.google.com.helper gcloud.sh
