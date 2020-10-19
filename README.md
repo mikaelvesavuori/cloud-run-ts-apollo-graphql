@@ -1,27 +1,18 @@
 # Apollo Server (GraphQL) API using Typescript, deployed on Google Cloud Run
 
-This package builds on a mildly modified version of the vanilla example from [Apollo Server version 2](https://www.apollographql.com/docs/apollo-server/getting-started/). Read more about that here.
+This package builds on a mildly modified version of the vanilla example from [Apollo Server version 2](https://www.apollographql.com/docs/apollo-server/getting-started/). The variant here assumes an external integration point, which may not be what you want—modify as needed!
 
-The example code allows you to do a single query to get users. See code below.
+The example code allows you to do a single query to get users. Your endpoint should look similar to `https://{CLOUD_RUN_ID}.run.app/graphql`. An elementary query example is:
 
 ```
-const typeDefs = gql`
-  type Query {
-    getUsers: [User]
+POST https://{CLOUD_RUN_ID}.run.app/graphql
+{
+  getUsers {
+    name
+    userId
+    email
   }
-
-  type User {
-    name: String
-    userId: String
-    email: String
-  }
-`;
-
-const resolvers = {
-  Query: {
-    getUsers: async () => await getUsersUseCase()
-  }
-};
+}
 ```
 
 Features of this repo are:
