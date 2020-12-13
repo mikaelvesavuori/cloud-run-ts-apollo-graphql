@@ -13,10 +13,10 @@ steps:
   #  dir: 'src'
   - name: 'docker'
     id: Build
-    args: ['build', '-t', '$_REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$_IMAGE', '.']
+    args: ['build', '-t', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/$_IMAGE', '.']
   - name: 'docker'
     id: Push
-    args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$_IMAGE']
+    args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/$_IMAGE']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: Deploy
     entrypoint: gcloud
@@ -26,7 +26,7 @@ steps:
         'deploy',
         '$_SERVICE_NAME',
         '--image',
-        '$_REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$_IMAGE',
+        '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/$_IMAGE',
         '--region',
         '$_REGION',
         '--platform',
@@ -37,5 +37,6 @@ steps:
 substitutions:
   _REGION: 'europe-north1'
   _SERVICE_NAME: 'cloud-run-ts-apollo-graphql'
+  _REPO_NAME: 'gql-api'
   _IMAGE: 'my-image'
-images: ['$_REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$_IMAGE']
+images: ['$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/$_IMAGE']
